@@ -30,8 +30,8 @@ struct Skiplist
 
         struct Cell
         {
-            Column *next; // Con trỏ tới node trước và node sau ở cùng level
-            int dist_next; // Khoảng cách tới node trước và sau
+            Column *next; // Con trỏ tới node sau ở cùng level
+            int dist_next; // Khoảng cách tới node sau
 
               // Constructor mặc định
             Cell(): next(nullptr), dist_next(0) {}
