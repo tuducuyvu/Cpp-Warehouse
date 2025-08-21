@@ -18,38 +18,34 @@ const int maxn = 2e3 + 10;
 vector<int> adj[maxn];// Đồ Thị (Graph adjacency list)
 
 // Max Flow - Capacity Scaling (easy implement) code
-vector <pii> edge[maxn][maxn]; // pairs of ( used_cap , cap )
+ll edge[maxn][maxn]; // Capacity of edge u->v
 int cnt[maxn],t;
-int require = INT_MAX;
+ll require = LLONG_MAX;
 
 void add_edge(int u,int v,int w)
 {
   adj[u].pb(v);
   adj[v].pb(u);
-  edge[u][v].pb(mk(0,w));//directed
-  edge[v][u].pb(mk(0,0));// mk(0,w) here if undirected
+  edge[u][v] += w;//directed
 }
 
   // Find an augmenting path from i to e with at least 'require' capacity.
-int dfs(int i,int e,int mn)
+ll dfs(int i,int e,ll mn)
 {
   if(i == e)return mn;
   cnt[i] = t;
   for(int k : adj[i])
   {
     if(cnt[k] == t)continue;
-    for(pii &l : edge[i][k])
+    
+    if(edge[i][k] >= require)
     {
-      if(l.se - l.fi >= require)
+      ll tmp = dfs(k,e,min(mn,edge[i][k])); // Recursively search for more flow
+      if(tmp)
       {
-        int tmp = dfs(k,e,min(mn,l.se-l.fi)); // Recursively search for more flow
-        if(tmp)
-        {
-          l.fi += tmp;
-          edge[k][i].begin()->fi -= tmp; // Update reverse edge
-          return tmp;
-        }
-        break;
+        edge[i][k] -= tmp; // Update edge
+        edge[k][i] += tmp; // Update reverse edge
+        return tmp;
       }
     }
   }
@@ -60,10 +56,10 @@ int dfs(int i,int e,int mn)
 ll max_flow(int s,int e,int n) // O( m ^ 2 * log(require) )
 {
   ll ans = 0;
-  int tmp;
+  ll tmp;
   for(;require;require>>=1)
   {
-    while(++t,tmp = dfs(1,n,INT_MAX))ans+=tmp; // Try to send flow while possible
+    while(++t,tmp = dfs(1,n,LLONG_MAX))ans+=tmp; // Try to send flow while possible
   }
   return ans;
 }
