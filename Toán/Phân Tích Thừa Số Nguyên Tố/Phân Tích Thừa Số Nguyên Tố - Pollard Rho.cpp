@@ -179,7 +179,7 @@ void trial_division(ll n) // O( sqrt(n) )
 
 // Prime Factor Code
   // Recursively factorizes n into primes using Pollard Rho and trial division
-void factorise(ll n) // O( n * 0.25 * log(n) )
+void factorise(ll n) // O( n ^ 0.25 * log(n) )
 {
   if(n < 10000)
   {
@@ -205,4 +205,5 @@ int main()
     factorise(123456789101112);
     
     return 0;
+
 }
