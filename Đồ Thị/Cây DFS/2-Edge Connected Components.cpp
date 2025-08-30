@@ -23,7 +23,7 @@ char ans[maxn];
 stack<int> st;
 int com[maxn],low[maxn],tim[maxn];
 int t,com_cnt;
-vector<pii> com_adj[maxn]; // Compressed graph
+vector<pii> com_adj[maxn]; // Compressed graph ( Bridge Tree )
 
   // DFS to find 2-edge connected component for each node
 void dfs(int i,int pa) // O( n )
@@ -62,7 +62,7 @@ void dfs(int i,int pa) // O( n )
   }
 }
 
-  // Build the compressed component graph
+  // Build the compressed component graph ( Bridge Tree )
 void compress_graph(int n) // O( n )
 {
   for(int i = 1;i<=n;i++)
