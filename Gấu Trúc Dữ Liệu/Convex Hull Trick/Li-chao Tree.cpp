@@ -32,43 +32,43 @@ struct Line
 
 struct Lichao 
 {
-  vector<Line> t;
-  
-  Lichao(){} 
-    // Initialize tree with given size (for segment tree)
-  Lichao(int sz) : t(sz,Line(0,LLONG_MAX)){}
-  
-    // Insert a new line f into the segment tree
-    // l, r: current segment range in coordinate space
-    // f: line to insert
-  void add_line(int l,int r,Line f) // O( log(sz) )
-  {
-      if(l > r)return;
-      int mid = (l + r)/2;
-        // Swap if new line is better at midpoint
-      if( f.cal(mid) < t[mid].cal(mid) ) swap(t[mid],f);
-      
-      if(l == r) return; // Leaf node reached
-      
-      if(f.a > t[mid].a) add_line(l,mid-1,f); // higher slope -> left side of the convex hull
-      if(f.a < t[mid].a) add_line(mid+1,r,f); // otherwise
-  }
-  
-    // l, r: current segment range
-    // pos: query x-coordinate
-  ll cal(int l,int r,int pos) // O( log(sz) )
-  {
-      if(l > r || l > pos || r < pos)return LLONG_MAX;
-      
-      int mid = (l + r)/2;
-      ll ans = t[mid].cal(pos);
-      
-      if(l == r)return ans; // Leaf node
-        // Query both children and return minimum value for pos
-      ans = min(ans, cal(l,mid-1,pos));
-      ans = min(ans, cal(mid+1,r,pos) );
-      return ans;
-  }
+    vector<Line> t;
+    
+    Lichao(){} 
+      // Initialize tree with given size (for segment tree)
+    Lichao(int sz) : t(sz,Line(0,LLONG_MAX)){}
+    
+      // Insert a new line f into the segment tree
+      // l, r: current segment range in coordinate space
+      // f: line to insert
+    void add_line(int l,int r,Line f) // O( log(sz) )
+    {
+        if(l > r)return;
+        int mid = (l + r)/2;
+          // Swap if new line is better at midpoint
+        if( f.cal(mid) < t[mid].cal(mid) ) swap(t[mid],f);
+        
+        if(l == r) return; // Leaf node reached
+        
+        if(f.a > t[mid].a) add_line(l,mid-1,f); // higher slope -> left side of the convex hull
+        if(f.a < t[mid].a) add_line(mid+1,r,f); // otherwise
+    }
+    
+      // l, r: current segment range
+      // pos: query x-coordinate
+    ll cal(int l,int r,int pos) // O( log(sz) )
+    {
+        if(l > r || l > pos || r < pos)return LLONG_MAX;
+        
+        int mid = (l + r)/2;
+        ll ans = t[mid].cal(pos);
+        
+        if(l == r)return ans; // Leaf node
+          // Query both children and return minimum value for pos
+        ans = min(ans, cal(l,mid-1,pos));
+        ans = min(ans, cal(mid+1,r,pos) );
+        return ans;
+    }
 };
 // End Code Li-chao Tree
 
