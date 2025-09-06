@@ -69,7 +69,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(0);
     
-    // https://cses.fi/problemset/task/1143
+    // https://codeforces.com/edu/course/2/lesson/4/2/practice/contest/273278/problem/B
     
     int m;
     cin >> n >> m;
@@ -100,4 +100,5 @@ int main()
     }
     
     return 0;
+
 }
