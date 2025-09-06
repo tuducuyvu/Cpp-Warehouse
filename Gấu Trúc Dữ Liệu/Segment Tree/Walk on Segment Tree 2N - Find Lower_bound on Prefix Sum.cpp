@@ -46,9 +46,9 @@ ll cal(int l, int r)
 
 
 //Code Walk on Segment Tree 2N
-int walk(int val) // Finds the leftmost index with Prefix Sum at least 'val' 
+int walk(int s,int val) // Finds the leftmost index > 's', with Prefix Sum (starting from 's') at least 'val' 
 {
-    int i = n; // go to leaf
+    int i = s + n; // go to leaf
     while(t[i] < val && i <= n + n && i > 1)
     {
           // If current position is odd or parent has enough capacity, go right
@@ -60,7 +60,9 @@ int walk(int val) // Finds the leftmost index with Prefix Sum at least 'val'
         }
         else i >>= 1; // Go up to parent
     }
-    return i - n; // Adjust index to original index of array
+    i -= n;// Adjust index to original index of array
+    if(i > n || i<s) return -1;
+    return i; 
 }
 //End Code Walk on Segment Tree 2N
 
@@ -95,7 +97,7 @@ int main()
         {
             int k;
             cin>>k;
-            cout<<walk(k+1)<<'\n';
+            cout<<walk(0,k+1)<<'\n';
         }
     }
     

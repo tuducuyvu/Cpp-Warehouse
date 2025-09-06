@@ -46,9 +46,9 @@ ll cal(int l, int r)
 
 
 //Code Walk on Segment Tree 2N
-int walk(int val) // Finds the leftmost index with value at least 'val' 
+int walk(int s,int val) // Finds the leftmost index > 's' with value at least 'val'
 {
-    int i = n+1; // go to leaf
+    int i = s + n; // go to leaf
     while(t[i] < val && i <= n + n && i > 1)
     {
           // If current position is odd or parent has enough capacity, go right
@@ -59,7 +59,10 @@ int walk(int val) // Finds the leftmost index with value at least 'val'
         }
         else i >>= 1; // Go up to parent
     }
-    return i - n; // Adjust index to original index of array
+    
+    i -= n; // Adjust index to original index of array
+    if(i < s || i > n)return -1;
+    return i; 
 }
 //End Code Walk on Segment Tree 2N
 
@@ -84,8 +87,8 @@ int main()
     {
         int val;
         cin >> val;
-        int i = walk(val); // Find suitable index
-        if(i < 1) i = 0; // No index found
+        int i = walk(1,val); // Find suitable index
+        if(i == -1) i = 0; // No index found
         cout << i << ' ';
         if(i > 0) up(i, -val); 
     }
