@@ -66,11 +66,12 @@ void prepare() // O( n + log(mod) )
   f[0] = 1;
   for(int i = 1;i<maxn;i++)f[i] = f[i-1] * i % mod;
   invf[maxn-1] = bin_pow(f[maxn-1],mod-2,mod);
-  for(int i = maxn-2;i;i--)invf[i] = invf[i+1] * (i + 1) % mod;
+  for(int i = maxn-2;i>=0;i--)invf[i] = invf[i+1] * (i + 1) % mod;
 }
 
 ll nCk(ll n,ll k) // O( 1 )
 {
+  if(n<k)return 0;
   return f[n] * invf[k] % mod * invf[n-k] % mod; // = f[n] / f[k] % mod / f[n-k] % mod
 }
 //End nCk code
