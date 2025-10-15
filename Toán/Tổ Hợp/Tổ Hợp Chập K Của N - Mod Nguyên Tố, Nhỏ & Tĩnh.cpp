@@ -1,7 +1,7 @@
 //Lucas nCk
 /* documents
-https://wiki.vnoi.info/vi/algo/algebra/nCk
-https://cp-algorithms.com/combinatorics/binomial-coefficients.html
+  https://wiki.vnoi.info/vi/algo/algebra/nCk
+  https://cp-algorithms.com/combinatorics/binomial-coefficients.html
 */
 #include <bits/stdc++.h>
 
@@ -57,7 +57,7 @@ ll bin_pow_large_mod(ll a,ll b,const ll &mod) // O( log(b) * log(mod) )
 //End bin_pow code
 
 const int maxn = 1e6 + 10;
-const ll mod = 1e4 + 7;//small prime & constant
+const ll mod = 100003;//small prime & constant
 
 //nCk code
 ll f[maxn],invf[maxn]; // factorial[] , inverse modulo of factorial[]
@@ -67,11 +67,12 @@ void prepare() // O( mod + log(mod) )
   f[0] = 1;
   for(int i = 1;i<mod;i++)f[i] = f[i-1] * i % mod;
   invf[mod-1] = bin_pow(f[mod-1],mod-2,mod);
-  for(int i = mod-2;i;i--)invf[i] = invf[i+1] * (i + 1) % mod;
+  for(int i = mod-2;i>=0;i--)invf[i] = invf[i+1] * (i + 1) % mod;
 }
 
 ll nCk(ll n,ll k) // O( 1 )
 {
+  if(n<k)return 0;
   return f[n] * invf[k] % mod * invf[n-k] % mod; // = f[n] / f[k] % mod / f[n-k] % mod
 }
 //End nCk code
@@ -95,7 +96,20 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(0);
     
+    // https://lqdoj.edu.vn/problem/ckn2
     
+    prepare();
+    
+    int t,tmp;
+    
+    cin>>t>>tmp;
+    
+    while(t--)
+    {
+        ll n,k;
+        cin>>n>>k;
+        cout<<nCk_lucas(n,k)<<'\n';
+    }
     
     return 0;
 }
