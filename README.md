@@ -3,7 +3,6 @@
 > "Thuật toán này vốn đã nổ não rồi mà còn gặp code bựa bựa nữa 💀😭🥀" – cảm giác này hầu hết chúng ta khi luyện CP (chắc) cũng từng trải rồi.
 
 
-
 Khi mới bắt đầu học cp, mình thường gặp khó khăn trong việc tìm những đoạn code mẫu dễ hiểu. Dù có rất nhiều resources ngoài kia, nhưng phần lớn:
 
 - Viết bẩn hoặc quá ngắn gọn, gây khó hiểu
@@ -11,19 +10,18 @@ Khi mới bắt đầu học cp, mình thường gặp khó khăn trong việc t
 - Code quá tối ưu, che giấu logic cơ bản  
 - Không phù hợp với format thi đấu thật ( có nhiều code mình thấy spam vector thay mảng )
 
-~và code ChatGPT bị sai hoặc copy trên mạng🐧~
+~và code ChatGPT sai / copy trên mạng~
 
 
 Vì thế, mình tạo repo này với mục tiêu:
 
 - 👉👈 **Chia sẻ các đoạn code mẫu chuẩn hóa, rõ ràng, đã test** (~maybe~🐧)
 
-- 🧠 **Hướng tới hiểu bản chất, không chỉ Ctrl C V** ( *nha Đ.Kiên* )
+- 🧠 **Hướng tới hiểu bản chất, không chỉ Ctrl C V**
 
-- 🔥 **Giúp các bạn cùng học, đặc biệt là các thế hệ đội tuyển sau, có thể tiếp cận thuật toán một cách nhanh chóng, hiệu quả**
+- 🔥 **Giúp các bạn cùng học, đặc biệt là các thế hệ sau, có thể tiếp cận thuật toán một cách nhanh chóng, hiệu quả**
 
 ### ***Hi vọng repo này sẽ phần nào giúp bạn tiết kiệm thời gian, giảm bớt rào cản khi học và có một nơi để tham khảo nhanh.***
-
 ---
 
 ## Một Số Nguồn Tài Liệu Hay
@@ -58,10 +56,7 @@ Vì thế, mình tạo repo này với mục tiêu:
 - Trong code của mình có dùng một số thủ thuật để rút gọn hoặc tối ưu, nhưng mình luôn cố gắng giữ cho code **dễ hiểu nhất có thể**.
 
 ---
-
-- Mình sẽ update repo này thường xuyên. Nếu mọi người có gợi ý thuật nào thì mình sẽ ưu tiên trước
-- Nếu mọi người có thắc mắc thì có thể Open Issue trong repo này hoặc là ib mình trên messenger ( coi code ở mấy chỗ khác chắc không ib được tác giả đâu nhỉ🐧 )
-- Nếu mọi người muốn góp code của chính mình vào đây thì có thể Pull Request ( hoặc ib mình luôn 👉👈 )
-
+- Nếu mọi người có thắc mắc thì có thể Open Issue
+- Nếu mọi người muốn góp code của chính mình vào đây thì có thể Pull Request  👉👈 
 ---
-🎯 *"Chúc các em học tập tốt và luôn giữ lửa đam mê với giải thuật!" -wutanhung*
+🎯 *"Don’t watch the clock; do what it does. Keep going." – Sam Levenson*
