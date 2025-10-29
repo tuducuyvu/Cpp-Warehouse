@@ -1,4 +1,4 @@
-// DSU rollback
+// Dynamic Connectivity
 /* documents
     https://wiki.vnoi.info/algo/data-structures/dsu-rollback
     https://usaco.guide/adv/offline-del?lang=cpp
@@ -19,15 +19,15 @@ const int maxn = 1e5 + 10;
 
 int ans[maxn];
 
-//Code DSU Rollback
-struct DSUrollback
+//Code Dynamic Connectivity
+struct DC
 {
     vector<pii> t[maxn * 4]; // the timeline, represented with a segment tree for updates
     
     int p[maxn],s[maxn]; // DSU parent/size []
     int cnt,total_range;
     
-    DSUrollback(int n,int q)
+    DC(int n,int q)
     {
         cnt = n; // Initially n components
         total_range = q; // we query on the [0,q] timeline range 
@@ -161,7 +161,7 @@ struct DSUrollback
             if(k.se>=0) up(1,k.se,total_range,0,total_range,k.fi);
     }
 };
-//End Code DSU Rollback 
+//End Code Dynamic Connectivity
 
 int main()
 {
@@ -173,7 +173,7 @@ int main()
     int n,m,q;
     cin>>n>>m>>q;
     
-    DSUrollback DSU(n,q);
+    DC graph(n,q);
 
       // Read initial edges, mark as active from time 0
     while(m--)
@@ -181,7 +181,7 @@ int main()
         pii edge;
         cin>>edge.fi>>edge.se;
         
-        DSU.add_edge(edge,0);
+        graph.add_edge(edge,0);
     }
 
       // Process queries: add or remove edges
@@ -191,14 +191,14 @@ int main()
         int ch;
         cin>>ch>>edge.fi>>edge.se;
         
-        if(ch==1) DSU.add_edge(edge,i);
-        else DSU.remove_edge(edge,i-1);
+        if(ch==1) graph.add_edge(edge,i);
+        else graph.remove_edge(edge,i-1);
     }
     
-    DSU.flush();
+    graph.flush();
     
       // Traverse segment tree to compute answers
-    DSU.walk(1,0,q);
+    graph.walk(1,0,q);
 
       // Output the answer for each time point
     for(int i = 0;i<=q;i++)cout<<ans[i]<<' ';
