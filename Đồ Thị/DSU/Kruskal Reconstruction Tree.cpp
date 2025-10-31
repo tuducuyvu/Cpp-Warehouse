@@ -15,33 +15,34 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int maxn = 4e5 + 10; // = n * 2
+const int maxlog = 20;
 
 // Kruskal Reconstruction Tree Code
-vector<int> adj[maxn]; // adjacency list for tree structure
+vector<int> adj[maxn]; // KRT
 
-int root[maxn]; // DSU root array
+int root[maxn]; // DSU root
 
-int head[maxn], heavy[maxn], d[maxn], p[maxn]; // HLD things
+int N; // current node count of KRT
 
-int N; // current node count in the virtual tree ( KRT )
-
-  // Initialize DSU and parent arrays
+  // Initialize DSU
 void prepare_DSU(int n)
 {
     N = n;
     for(int i = 1;i<=n*2;i++)root[i] = i;
 }
 
-  // DSU find with path compression
+  // DSU find ( path compression )
 int fi(int i)
 {
     while(i != root[i])i = root[i] = root[root[i]];
     return i;
 }
 
-int ans[maxn]; // stores the edge index (or value) for each virtual node
+int ans[maxn]; // stores the edge index (or value) for each internal node
+int p[maxn][maxlog], in[maxn],timer;
+bool c[maxn];
 
-  // Merge two sets using a new virtual node representing the union
+  // Merge two sets using a new internal node representing the union
 void unite(int u,int v,int val)
 {
     u = fi(u);
@@ -50,63 +51,36 @@ void unite(int u,int v,int val)
     ++N;
     adj[N].pb(u);
     adj[N].pb(v);
-    root[u] = root[v] = p[u] = p[v] = p[N] = N;
+    root[u] = root[v] = p[u][0] = p[v][0] = p[N][0] = N;
     ans[N] = val;
 }
 
-  // DFS to find the heavy child for HLD
-int dfs(int i)
+void dfs(int i)
 {
-    int S = 1, mx = 0;
-    for(int k : adj[i])
-    {
-        d[k] = d[i]+1; // set depth
-        int s = dfs(k); // subtree size
-        S += s;
-        if(s > mx)
-        {
-            mx = s;
-            heavy[i] = k; // set heavy child
-        }
-    }
-    return S;
-}
- 
-  // Decompose the tree for HLD, setting head for each chain
-void decompose(int i,int h)
-{
-    head[i] = h;
-    if(heavy[i])decompose(heavy[i],h); // continue heavy path
-    for(int k : adj[i])
-    {
-        if(k != heavy[i])decompose(k,k); // start new chain for light children
-    }
+    in[i] = ++timer;
+    c[i] = 1;
+    for(int j = 1;j<maxlog;j++) p[i][j] = p[p[i][j-1]][j-1];
+    
+    for(int k : adj[i]) dfs(k);
 }
 
   // Prepare LCA structures by running DFS and decomposition for each component
 void prepare_LCA()
 {
     for(int i = N; i; i--) // we iterate from N to ensure we start from the roots of the forest
-    {
-        if(!d[i])
-        {
-            dfs(i); // calculate sizes and heavy child
-            decompose(i,i); // chain decomposition
-        }
-    }
+        if(!c[i])dfs(i); 
 }
 
-  // Find LCA in the KRT using HLD chains
+  // Find LCA in the KRT
 int lca(int u,int v)
 {
     if(fi(u) != fi(v))return 0; // not in the same component
-    while(head[u] != head[v])
-    {
-        int U = p[head[u]], V = p[head[v]];
-        if(d[U]>=d[V])u = U;
-        if(d[V]>=d[U])v = V;
-    }
-    return (d[u] < d[v]?u:v);
+    if(u==v)return u;
+    if(in[u] > in[v]) swap(u,v);
+    for(int j = maxlog-1;j>=0;j--)
+        if(p[v][j] && in[u] < in[p[v][j]] )  v = p[v][j];
+    
+    return p[v][0];
 }
 
   // Get the value (edge index) at the LCA of u and v, or -1 if not connected
