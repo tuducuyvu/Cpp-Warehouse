@@ -1,6 +1,5 @@
 // Convex Hull Trick - General Container 
 /* documents
-  tài liệu của lanciu
   https://usaco.guide/adv/line-container?lang=cpp
   https://usaco.guide/plat/convex-hull-trick
   https://cp-algorithms.com/geometry/convex_hull_trick.html
@@ -19,11 +18,9 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int maxn = 1e5 + 10;
-ll a[maxn],pre[maxn],dp[maxn];
 
 // Code Convex Hull Trick - General Container
-  // Structure to represent a line of the form y = ax + b
-struct Line 
+struct Line // y = ax + b
 {
     ll a,b;
     mutable ld p; // the position where this line intersects with the next line in the container
@@ -96,6 +93,8 @@ struct CHT_General : multiset<Line,less<void>>
     ll cal(ll x) { return lower_bound(x)->cal(x); }
 };
 // End Code Convex Hull Trick - General Container
+
+ll a[maxn],pre[maxn],dp[maxn];
 
 int main()
 {
