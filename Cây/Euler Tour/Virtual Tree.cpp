@@ -52,11 +52,12 @@ bool cmp(int a,int b)
   // Finds the Lowest Common Ancestor (LCA) of two nodes
 int lca(int u,int v) // O( maxlog )
 {
+    if(u==v) return u;
     if( in[u] > in[v] )swap(u,v); // Ensure 'v' is not the ancestor of 'u'
     
     for(int j = maxlog-1;j>=0;j--)
     {
-        if( in[u] < in[p[v][j]] ) v = p[v][j]; 
+        if(p[v][j] && in[u] < in[p[v][j]] ) v = p[v][j]; 
     }
     
     return p[v][0]; // Return the LCA
@@ -176,3 +177,4 @@ int main()
     
     return 0;
 }
+
