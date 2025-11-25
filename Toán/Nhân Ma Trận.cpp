@@ -1,7 +1,6 @@
 //matrix
 /* documents
-https://wiki.vnoi.info/vi/algo/trick/matrix-multiplication
- or wutanhung
+ https://wiki.vnoi.info/vi/algo/trick/matrix-multiplication
 */
 #include <bits/stdc++.h>
 
@@ -107,3 +106,4 @@ int main()
     
     return 0;
 }
+
