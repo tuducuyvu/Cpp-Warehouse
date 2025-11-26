@@ -22,13 +22,15 @@ const int maxn = 3e5 + 10;
 struct Line 
 {
     ll a,b;
-    Line():a(0),b(0){} 
-    Line(ll A,ll B):a(A),b(B){} 
+    Line():a(0),b(LLONG_MAX){} 
+    Line(ll _a,ll _b):a(_a),b(_b){} 
     
       // Calculate y = ax + b for given x
     ll cal(ll x)const {return a * x + b;}
+    
       // Compute x coordinate of intersection of two lines
-    friend ld xcut(Line a,Line b) { return (ld)(b.b - a.b) / abs(a.a - b.a);}
+    friend ld xcut(Line a,Line b) { return (ld)(b.b - a.b) / (a.a - b.a);}
+    
       // Check if the Line b in the hull is valid
     friend bool check(Line a,Line b,Line c) { return xcut(a,b) < xcut(b,c);}
 };
@@ -36,18 +38,17 @@ struct Line
   // Convex Hull Trick deque with constrains ( a values are STRICTLY decreasing, x queries are increasing )
 struct CHT_Constrained :deque<Line>
 {
-      // Add a new line to the convex hull, removing invalid lines
-    void add(Line a)
+    void add(Line a) // O( 1 ) amortized
     {
           // Remove lines while the new line makes the last one invalid
         while(size()>1 && !check(at(size()-2),at(size()-1),a))pop_back();
-        pb(a); // Add new line
+        pb(a); // Add new line to the back
     }
     
       // Query minimum value for given x
-    ll cal(ll x)
+    ll cal(ll x) // O( 1 ) amortized
     {
-        if(empty())return LLONG_MAX; // If no lines, return infinity
+        if(empty())return LLONG_MAX; // If no lines, return infinity (or whatever)
           // Pop useless lines
         while(size()>1 && xcut(at(0),at(1)) < x)pop_front();
         return at(0).cal(x); 
@@ -67,17 +68,14 @@ int main()
     
     // https://oj.vnoi.info/problem/group
     
-    int n,mx = 0;
+    int n;
     cin>>n;
     
-    for(int i = 0;i<n;i++)
-    {
-        cin>>a[i].fi>>a[i].se;
-    }
+    for(int i = 0;i<n;i++)  cin>>a[i].fi>>a[i].se;
     
     sort(a,a+n,greater<>());
     
-    for(int i = 0;i<n;i++)
+    for(int i = 0,mx = 0;i<n;i++)
     {
         if(a[i].se>mx)
         {
@@ -86,10 +84,8 @@ int main()
         }
     }
     
-    n = b.size();
-    int i = 1;
-    
     CHT_Constrained container; 
+    int i = 1;
         
     for(pii k : b)
     {
@@ -101,7 +97,7 @@ int main()
         i++;
     }
     
-    cout<<dp[n];
+    cout<<dp[b.size()];
     
     return 0;
 }
