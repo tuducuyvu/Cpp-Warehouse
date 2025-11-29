@@ -1,6 +1,7 @@
 // DP Knuth's Optimization
 /* documents
   https://cp-algorithms.com/dynamic_programming/knuth-optimization.html
+  https://usaco.guide/adv/dp-more#knuths-optimization
 */
 #include <bits/stdc++.h>
 
