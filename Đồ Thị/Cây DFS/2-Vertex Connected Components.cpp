@@ -79,52 +79,34 @@ void compress_graph(int n)
 }
 // End Biconnected component Code
 
-//HLD code
-namespace HLD 
+namespace LCA
 {
-    int depth[maxn * 2],heavy[maxn * 2],head[maxn * 2],p[maxn * 2];
-    int dfs(int i,int pa) 
-    {
-        int S = 1;         
-        int max_s = 0;     
-        p[i] = pa;         
-        depth[i] = depth[pa] + 1; 
-        for(int k : com_adj[i])
-        {
-            if(k == pa)continue;
-            int s = dfs(k,i); 
-            S += s;
-            if(s > max_s)
-            {
-                max_s = s;
-                heavy[i] = k; 
-            }
-        }
-        return S;
-    }
+    const int maxlog = 20;
+    int in[maxn * 2],p[maxn * 2][maxlog],t;
     
-    void decompose(int i,int h) 
+    void dfs(int i,int pa) 
     {
-        head[i] = h;         
-        if(heavy[i])decompose(heavy[i],h); 
+        in[i] = ++t;
+        p[i][0] = pa;
+        for(int j = 1;j<maxlog;j++)p[i][j] = p[p[i][j-1]][j-1];
         for(int k : com_adj[i])
         {
-            if(k != p[i] && k != heavy[i])decompose(k,k);
+            if(k==pa)continue;
+            dfs(k,i);
         }
     }
     
     int lca(int u,int v) 
     {
-        while(head[u] != head[v]) 
+        if(u==v)return u;
+        if(in[u]>in[v])swap(u,v);
+        for(int j = maxlog-1;j>=0;j--)
         {
-            int U = p[head[u]],V = p[head[v]];
-            if(depth[U] >= depth[V])u = U; 
-            if(depth[V] >= depth[U])v = V;
+            if(p[v][j] && in[u] < in[p[v][j]])v = p[v][j];
         }
-        return (depth[u] < depth[v]?u:v);
+        return p[v][0];
     }
 }
-// End HLD Code
 
 int main()
 {
@@ -152,10 +134,7 @@ int main()
     
     compress_graph(n); // build block-cut tree
     
-      // the rest is to solve the problem
-    HLD::dfs(com[1],0); 
-    
-    HLD::decompose(com[1],com[1]); 
+    LCA::dfs(com[1],0); 
     
     while(q--)
     {
@@ -184,9 +163,9 @@ int main()
             continue;
         }
         
-        int l = HLD::lca(a,b);
-        int la = HLD::lca(a,c);
-        int lb = HLD::lca(b,c);
+        int l = LCA::lca(a,b);
+        int la = LCA::lca(a,c);
+        int lb = LCA::lca(b,c);
         
           // Check if c is on the path between a and b in the block-cut tree
         if(l == c || (la == c && lb == l) || (lb == c && la == l))cout<<"NO\n";
